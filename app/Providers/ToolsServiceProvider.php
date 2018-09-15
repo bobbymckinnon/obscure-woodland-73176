@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
-use App\Tools\SearchApi;
+use App\Tools\Ebay\EbaySearchApi;
+use App\Tools\SearchApiInterface;
 use Illuminate\Support\ServiceProvider;
-use App\Tools\SomeExampleClass;
 
 class ToolsServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind(SearchApi::class, function () {
-            return new SomeExampleClass;
-        });
+        $this->app->bind(SearchApiInterface::class, EbaySearchApi::class);
     }
 }

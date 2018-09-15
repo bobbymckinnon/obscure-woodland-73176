@@ -5,7 +5,6 @@ $config = PhpCsFixer\Config::create()->setFinder($finder);
 
 $finder
     ->in(__DIR__ . '/..')
-    ->exclude('app/')
     ->exclude('web/')
     ->exclude('var/')
     ->exclude('bin/')

@@ -15,6 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/search', function () {
-    return \App\Http\Resources\Product::collection(\App\User::all());
-});
+Route::get('/search', 'SearchController@index');
