@@ -48,4 +48,10 @@ Php Unit
 * To run the unit tests locally - php vendor/bin/phpunit -c phpunit.xml
 * <b>EbaySearchApiTest</b> tests dynamic url query building.
 * <b>EbayProductDataTest</b> test api response processing.
-   
+
+External Resources
+=======================   
+* https://developer.ebay.com/DevZone/finding/CallRef/findItemsByKeywords.html
+* https://laravel.com/
+* https://laravel.com/docs/5.6/artisan
+* https://phpunit.de/
