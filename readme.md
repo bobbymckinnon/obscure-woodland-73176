@@ -24,6 +24,14 @@ Starting point of the app is  <b>App\Http\Controller\SearchController</b>.
 * <b>ProductResource</b> - json transformer for product
 * <b>ProductCollection</b> - json transformer for collection of ProductResource
 
+Considerations / Improvements
+=======================
+* The application can be easily extended to support other api endpoint and data sets by created new classes that implement the above mentioned interfaces.
+* The application uses the ebay OutputSelector - GalleryInfo to find the largest product image available.
+* Most browsers will sort the json response them selves, so viewing the response sorted by price in a browser in problematic.
+* The sorting routine itself could be implemented better.
+* For queries with large data sets in the response it may be better to dump the response to a text file, and have queued jobs handle the parsing.
+ 
 API
 =======================
 * All query parameters are optional - <b>except</b> "keywords"
@@ -40,11 +48,4 @@ Php Unit
 * To run the unit tests locally - php vendor/bin/phpunit -c phpunit.xml
 * <b>EbaySearchApiTest</b> tests dynamic url query building.
 * <b>EbayProductDataTest</b> test api response processing.
-
-Considerations / Improvements
-=======================
-* The application can be easily extended to support other api endpoint and data sets by created new classes that implement the above mentioned interfaces.
-* Most browsers will sort the json response them selves, so viewing the response sorted by price in a browser in problematic.
-* The sorting routine itself could be implemented better.
-* For queries with large data sets in the response it may be better to dump the response to a text file, and have queued jobs handle the parsing.
-    
+   
