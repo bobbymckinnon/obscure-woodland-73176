@@ -2,15 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Tools\Ebay;
+namespace App\Tools\SearchApi\Ebay;
 
-use App\Http\Resources\ProductResouce;
-use App\Tools\SearchApiInterface;
+use App\Tools\SearchApi\ProductDataInterface;
+use App\Tools\SearchApi\SearchApiInterface;
 use Illuminate\Support\Collection;
 
 class EbaySearchApi implements SearchApiInterface
 {
-    const ENDPOINT = 'http://svcs.sandbox.ebay.com/services/search/FindingService/v1';
+    const API_ENDPOINT = 'http://svcs.sandbox.ebay.com/services/search/FindingService/v1';
+
+    public function __construct(ProductDataInterface $productData)
+    {
+        $this->productData = $productData;
+    }
 
     /**
      * @param array $params
@@ -25,19 +30,8 @@ class EbaySearchApi implements SearchApiInterface
         $response = $client->get($this->getEndpoint() . $this->buildQuery($params));
 
         $items = json_decode($response->getBody()->getContents());
-        if ('Success' !== $items->findItemsByKeywordsResponse[0]->ack[0]) {
-            return $collection;
-        }
 
-        $itemResponse = $items->findItemsByKeywordsResponse[0]->searchResult[0];
-        if (isset($itemResponse->item)) {
-            foreach ($itemResponse->item as $item) {
-                $product = ProductResouce::make($item);
-                $collection->push($product);
-            }
-        }
-
-        return $collection;
+        return $this->productData->processData($items, $params);
     }
 
     /**
@@ -50,10 +44,8 @@ class EbaySearchApi implements SearchApiInterface
             . '&SECURITY-APPNAME=' . getenv('EBAY_API_APPNAME')
             . '&RESPONSE-DATA-FORMAT=JSON'
             . '&REST-PAYLOAD'
-            . '&outputSelector(0)=SellerInfo&outputSelector(1)=PictureURLSuperSize&outputSelector(2)=GalleryInfo'
-            . '&keywords=auto'
-            . '&sortOrder=PricePlusShippingHighest',
-            self::ENDPOINT
+            . '&outputSelector(0)=SellerInfo&outputSelector(1)=PictureURLSuperSize&outputSelector(2)=GalleryInfo',
+            self::API_ENDPOINT
         );
     }
 
@@ -64,8 +56,11 @@ class EbaySearchApi implements SearchApiInterface
      */
     public function buildQuery(array $params): string
     {
-        $query = [];
         $prCount = -1;
+        $query = [
+            'keywords' => $params['keywords'],
+            'sortOrder' => 'BestMatch',
+        ];
 
         if (\array_key_exists('keywords', $params)) {
             $query['keywords'] = $params['keywords'];
@@ -76,10 +71,11 @@ class EbaySearchApi implements SearchApiInterface
             $query['itemFilter.value(' . (string) $prCount . ')'] = $params['price_min'];
         }
         if (\array_key_exists('price_max', $params)) {
-            $query['itemFilter.name'][$prCount++] = 'MaxPrice';
+            ++$prCount;
+            $query['itemFilter.name'][$prCount] = 'MaxPrice';
             $query['itemFilter.value'][$prCount] = $params['price_max'];
         }
 
-        return http_build_query($query, '&');
+        return '&' . http_build_query($query, '&');
     }
 }

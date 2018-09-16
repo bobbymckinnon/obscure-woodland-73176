@@ -6,9 +6,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResouce extends JsonResource
+class ProductResource extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         $result = [
             'provider' => $this->title[0],

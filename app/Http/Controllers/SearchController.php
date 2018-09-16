@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductCollection;
-use App\Tools\SearchApiInterface;
+use App\Tools\SearchApi\SearchApiInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -31,6 +31,13 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        return ProductCollection::make($this->searchApi->getData($request->all()));
+        $collection = collect();
+        if (!array_key_exists('keywords', $request->all())) {
+            return $collection->push(['keywords required']);
+        }
+
+        $collection = ProductCollection::make($this->searchApi->getData($request->all()));
+
+        return $collection;
     }
 }
