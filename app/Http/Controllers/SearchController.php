@@ -36,8 +36,6 @@ class SearchController extends Controller
             return $collection->push(['keywords required']);
         }
 
-        $collection = ProductCollection::make($this->searchApi->getData($request->all()));
-
-        return $collection;
+        return ProductCollection::make($this->searchApi->getData($request->all()));
     }
 }

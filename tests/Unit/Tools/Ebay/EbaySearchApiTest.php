@@ -55,6 +55,5 @@ class EbaySearchApiTest extends \PHPUnit\Framework\TestCase
             '&keywords=mac&sortOrder=CurrentPriceHighest&itemFilter.name%280%29=MinPrice&itemFilter.value%280%29=10',
             $str
         );
-
     }
 }
