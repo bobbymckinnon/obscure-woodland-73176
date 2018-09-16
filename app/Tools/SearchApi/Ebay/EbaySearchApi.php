@@ -75,6 +75,9 @@ class EbaySearchApi implements SearchApiInterface
             $query['itemFilter.name'][$prCount] = 'MaxPrice';
             $query['itemFilter.value'][$prCount] = $params['price_max'];
         }
+        if (\array_key_exists('sorting', $params)) {
+            $query['sortOrder'] = 'CurrentPriceHighest';
+        }
 
         return '&' . http_build_query($query, '&');
     }

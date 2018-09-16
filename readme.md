@@ -27,14 +27,17 @@ Starting point of the app is  <b>App\Http\Controller\SearchController</b>.
 Considerations / Improvements
 =======================
 * The application can be easily extended to support other api endpoint and data sets by created new classes that implement the above mentioned interfaces.
-* The application uses the ebay OutputSelector - GalleryInfo to find the largest product image available.
-* Most browsers will sort the json response them selves, so viewing the response sorted by price in a browser in problematic.
-* The sorting routine itself could be implemented better.
 * For queries with large data sets in the response it may be better to dump the response to a text file, and have queued jobs handle the parsing.
+* The application uses the ebay OutputSelector - GalleryInfo to find the largest product image available.
+* The sorting routine itself could be implemented better.
  
 API
 =======================
 * All query parameters are optional - <b>except</b> "keywords"
+    * keywords
+    * price_min
+    * price_max
+    * sorting (by_price_asc | by_price_desc)
 * The application will "sleep" if it is not used for several hours, so initial request could take up to 30 seconds.
 * To access the api endpoint
     * https://obscure-woodland-73176.herokuapp.com/search?keywords=bmw

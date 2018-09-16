@@ -42,5 +42,19 @@ class EbaySearchApiTest extends \PHPUnit\Framework\TestCase
             '&keywords=mac&sortOrder=BestMatch&itemFilter.name%280%29=MinPrice&itemFilter.value%280%29=10&itemFilter.name%5B1%5D=MaxPrice&itemFilter.value%5B1%5D=20',
             $str
         );
+
+        $params = [
+            'keywords' => 'mac',
+            'price_min' => 10,
+            'sorting' => 'by_price_desc',
+        ];
+
+        $str = (new EbaySearchApi((new EbayProductData())))->buildQuery($params);
+
+        $this->assertEquals(
+            '&keywords=mac&sortOrder=CurrentPriceHighest&itemFilter.name%280%29=MinPrice&itemFilter.value%280%29=10',
+            $str
+        );
+
     }
 }

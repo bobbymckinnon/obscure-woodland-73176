@@ -34,12 +34,8 @@ class EbayProductData implements ProductDataInterface
             }
         }
 
-        $collection = $collection->sortBy(function ($item) {
-            return (float) $item->resource->sellingStatus[0]->currentPrice[0]->__value__;
-        });
-
-        if (\array_key_exists('sorting', $params) && 'by_price_asc' === $params['sorting']) {
-            $collection = $this->sortData($collection);
+        if (\array_key_exists('sorting', $params)) {
+            $collection = ('by_price_asc' !== $params['sorting']) ? $collection : $this->sortData($collection);
         }
 
         return $collection;
@@ -52,8 +48,8 @@ class EbayProductData implements ProductDataInterface
      */
     public function sortData(Collection $collection): Collection
     {
-        return $collection->sortBy(function ($item) {
-            return (float) $item->resource->sellingStatus[0]->currentPrice[0]->__value__;
-        });
+        $reversed = $collection->reverse();
+
+        return collect(array_values($reversed->all()));
     }
 }
