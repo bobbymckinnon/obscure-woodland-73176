@@ -37,10 +37,13 @@ API
 
 Php Unit
 =======================
-* php vendor/bin/phpunit -c phpunit.xml
+* To run the unit tests locally - php vendor/bin/phpunit -c phpunit.xml
+* <b>EbaySearchApiTest</b> tests dynamic url query building.
+* <b>EbayProductDataTest</b> test api response processing.
 
 Considerations / Improvements
 =======================
+* The application can be easily extended to support other api endpoint and data sets by created new classes that implement the above mentioned interfaces.
 * Most browsers will sort the json response them selves, so viewing the response sorted by price in a browser in problematic.
 * The sorting routine itself could be implemented better.
 * For queries with large data sets in the response it may be better to dump the response to a text file, and have queued jobs handle the parsing.
