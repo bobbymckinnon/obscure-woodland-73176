@@ -36,5 +36,11 @@ API
 Php Unit
 =======================
 * php vendor/bin/phpunit -c phpunit.xml
+
+Considerations / Improvements
+=======================
+* Most browsers will sort the json response them selves, so viewing the response sorted by price in a browser in problematic.
+* The sorting routine itself could be implemented better.
+* For queries with large data sets in the response it may be better to dump the response to a text file, and have queued jobs handle the parsing.
     
 <p align="left"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
